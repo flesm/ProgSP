@@ -18,7 +18,6 @@ public class ListManagementApp extends JFrame {
         setLocationRelativeTo(null);
         setLayout(new BorderLayout());
 
-        // Ствараем табліцу з дадзенымі
         String[] columnNames = {"ID", "Назва"};
         Object[][] data = {
                 {1, "Элемент 1"},
@@ -38,14 +37,11 @@ public class ListManagementApp extends JFrame {
         JScrollPane tableScrollPane = new JScrollPane(table);
         add(tableScrollPane, BorderLayout.CENTER);
 
-        // Ствараем сцяжкі (Checkbox)
         selectOddRowsCheckBox = new JCheckBox("Выбраць няцотныя радкі");
         selectEvenRowsCheckBox = new JCheckBox("Выбраць цотныя радкі");
 
-        // Дадаем выпадаючы спіс
         evenRowsChoice = new Choice();
 
-        // Панэль для сцяжкоў і спісу
         JPanel panel = new JPanel();
         panel.setLayout(new GridLayout(3, 1));
         panel.add(selectOddRowsCheckBox);
@@ -54,7 +50,6 @@ public class ListManagementApp extends JFrame {
 
         add(panel, BorderLayout.SOUTH);
 
-        // Апрацоўшчык для сцяжка "Выбраць няцотныя радкі"
         selectOddRowsCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,11 +65,10 @@ public class ListManagementApp extends JFrame {
             }
         });
 
-        // Апрацоўшчык для сцяжка "Выбраць цотныя радкі"
         selectEvenRowsCheckBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                evenRowsChoice.removeAll(); // Ачышчаем спіс
+                evenRowsChoice.removeAll();
                 if (selectEvenRowsCheckBox.isSelected()) {
                     for (int i = 0; i < table.getRowCount(); i++) {
                         if ((int) table.getValueAt(i, 0) % 2 == 0) {

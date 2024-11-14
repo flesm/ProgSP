@@ -17,10 +17,9 @@ class ClientTCP extends Frame implements ActionListener, WindowListener {
     }
 
     private void GUI() {
-        // Назва акна
         setTitle("КЛІЕНТ");
-        tf = new TextField("127.0.0.1"); // IP адрас кліента
-        tf1 = new TextField("1024"); // порт кліента
+        tf = new TextField("127.0.0.1");
+        tf1 = new TextField("1024");
         tf2 = new TextField();
         tf3 = new TextField();
         tf4 = new TextField();
@@ -35,7 +34,6 @@ class ClientTCP extends Frame implements ActionListener, WindowListener {
         Button btn = new Button("Падключыцца");
         Button btn1 = new Button("Адправіць");
 
-        // Размяшчэнне элементаў на акне
         tf.setBounds(200, 50, 70, 25);
         tf1.setBounds(330, 50, 70, 25);
         tf2.setBounds(150, 200, 50, 25);
@@ -52,7 +50,6 @@ class ClientTCP extends Frame implements ActionListener, WindowListener {
         la3.setBounds(160, 250, 150, 25);
         la4.setBounds(600, 10, 150, 25);
 
-        // Дадаем элементы ў акно
         add(tf);
         add(tf1);
         add(tf2);
@@ -73,23 +70,22 @@ class ClientTCP extends Frame implements ActionListener, WindowListener {
         setVisible(true);
         addWindowListener(this);
 
-        // Слухачы для кнопак
         btn.addActionListener(al);
         btn1.addActionListener(this);
     }
 
     public void windowClosing(WindowEvent we) {
-        if (sock != null && !sock.isClosed()) { // калі сокет адкрыты
+        if (sock != null && !sock.isClosed()) {
             try {
-                sock.close(); // зачыняем сокет
+                sock.close();
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        this.dispose(); // закрыццё акна
+        this.dispose();
     }
 
-    // Іншыя метады WindowListener (не выкарыстоўваюцца)
+    // не юзаюцца, але асяроддзе ругаецца на іх абавязковае прапісванне
     public void windowActivated(WindowEvent we) {}
     public void windowClosed(WindowEvent we) {}
     public void windowDeactivated(WindowEvent we) {}
@@ -102,10 +98,9 @@ class ClientTCP extends Frame implements ActionListener, WindowListener {
             return;
         }
         try {
-            is = sock.getInputStream(); // уваходны паток
-            os = sock.getOutputStream(); // выхадны паток
+            is = sock.getInputStream();
+            os = sock.getOutputStream();
 
-            // Збіраем уведзеныя кліентам дадзеныя ў адну радок
             String numbers = "";
             numbers += tf2.getText() + " ";
             numbers += tf3.getText() + " ";
@@ -113,11 +108,10 @@ class ClientTCP extends Frame implements ActionListener, WindowListener {
             numbers += tf5.getText() + " ";
             numbers += tf6.getText() + " ";
 
-            os.write(numbers.getBytes()); // адпраўляем дадзеныя серверу
+            os.write(numbers.getBytes());
             byte[] bytes = new byte[1024];
-            is.read(bytes); // атрымліваем адказ ад сервера
+            is.read(bytes);
 
-            // Адлюстроўваем колькасць лікаў, кратных тром
             String str = new String(bytes, "UTF-8");
             ta.append("Колькасць лікаў, кратных тром: " + str.trim() + "\n");
         } catch (Exception ex) {
@@ -133,12 +127,11 @@ class ClientTCP extends Frame implements ActionListener, WindowListener {
         }
     }
 
-    ActionListener al = new ActionListener() { // падключэнне да сервера па націску на кнопку
+    ActionListener al = new ActionListener() {
         @Override
         public void actionPerformed(ActionEvent arg0) {
             try {
                 sock = new Socket(InetAddress.getByName(tf.getText()), Integer.parseInt(tf1.getText()));
-                // стварэнне сокета па IP і порце
             } catch (Exception e) {
                 e.printStackTrace();
             }
